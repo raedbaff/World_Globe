@@ -1,4 +1,4 @@
-import data from "../assets/data/triangles.json";
+import data from "../assets/data/triangles2.json";
 import * as THREE from "three";
 import { useMemo } from "react";
 import { latLonToVector3 } from "../helpers/verticeConvetor";
