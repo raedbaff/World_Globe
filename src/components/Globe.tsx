@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Space from "./Space";
-import World from "./World"
+import World from "./World";
 const Globe = () => {
   return (
     <Canvas camera={{ position: [0, 0, 3], fov: 50 }}>
@@ -21,5 +21,3 @@ const Globe = () => {
 };
 
 export default Globe;
-
-
