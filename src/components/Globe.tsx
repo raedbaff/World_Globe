@@ -11,7 +11,7 @@ const Globe = () => {
 
       <mesh>
         <sphereGeometry args={[1, 64, 64]} />
-        <meshStandardMaterial color={"white"} wireframe wireframeLinewidth={0.5} />
+        <meshStandardMaterial color={"#c2dfff"} />
       </mesh>
       <World />
 
