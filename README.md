@@ -10,7 +10,6 @@ It’s built using React, @react-three/fiber, and Three.js, leveraging GPU-accel
 - ⚡ Dynamic arcs representing simulated network activity or attacks
 - 🎥 Interactive camera with orbit and zoom controls
 - 💡 Configurable materials, lighting, and animation speed
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
 ## 🧠 Tech Stack
 
@@ -21,6 +20,7 @@ The React Compiler is not enabled on this template because of its impact on dev 
 - Vite – Development and build tool
 
 ## 🏗️ Setup
+
 ```bash
 # Install dependencies
 npm install
@@ -30,7 +30,9 @@ npm run dev
 ```
 
 ## 🗺️ Data
+
 The globe’s landmass is generated from GeoJSON world data, processed into 3D geometry for accurate projection on a sphere and triangulated using the following github repo : [geo_triangulate](https://github.com/jessihamel/geo_triangulate)
 
 ## 📜 License
+
 MIT © 2025 Raed Baffoun
