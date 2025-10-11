@@ -21,7 +21,6 @@ const Arc = () => {
 
     // add curve height
     const height = Math.sin(Math.PI * t) * 0.3;
-    console.log(height);
     const dir = lerped.clone().normalize();
     lerped.add(dir.multiplyScalar(height));
 
