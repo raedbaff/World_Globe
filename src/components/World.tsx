@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { latLonToVector3 } from "../helpers/verticeConvetor";
 import { useFrame, useThree } from "@react-three/fiber";
+import borders from "../assets/data/borders.json";
+import GeoJsonGeometry from "three-geojson-geometry";
 
 const World = () => {
   const { camera } = useThree();
@@ -12,6 +14,14 @@ const World = () => {
   const group = new THREE.Group();
   const meshesData = useRef<THREE.Mesh[]>([]);
   const meshes = useMemo(() => {
+    borders.features.forEach((feature) => {
+      const material = [new THREE.LineBasicMaterial({ color: "#56BD9A" })];
+      const line = new THREE.LineSegments(
+        new GeoJsonGeometry(feature.geometry, 1.021),
+        material,
+      );
+      group.add(line);
+    });
     data.features
       .filter((feature) => !feature.properties?.nullData)
       .forEach((feature) => {

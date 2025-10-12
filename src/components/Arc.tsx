@@ -4,6 +4,7 @@ import { latLonToVector3 } from "../helpers/verticeConvetor";
 import { useThree } from "@react-three/fiber";
 
 const Arc = () => {
+  return;
   const { scene } = useThree();
 
   const start = [9.537, 33.8869];
