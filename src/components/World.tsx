@@ -5,11 +5,14 @@ import { latLonToVector3 } from "../helpers/verticeConvetor";
 import { useFrame, useThree } from "@react-three/fiber";
 import borders from "../assets/data/borders.json";
 import GeoJsonGeometry from "three-geojson-geometry";
+import type { FeatureCollection, MultiPolygon } from "geojson";
 
 const World = () => {
   const { camera } = useThree();
+  const toolTip = document.getElementById("countryToolTip");
   const hoveredMesh = useRef<THREE.Mesh | null>(null);
   const mouse = useRef(new THREE.Vector2());
+  const normalMouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const raycaster = useRef(new THREE.Raycaster());
   const group = new THREE.Group();
   const meshesData = useRef<THREE.Mesh[]>([]);
@@ -22,19 +25,16 @@ const World = () => {
       );
       group.add(line);
     });
-    data.features
+    (data as FeatureCollection<MultiPolygon>).features
       .filter((feature) => !feature.properties?.nullData)
       .forEach((feature) => {
         const vertices: number[] = [];
-        const lowerVertices: number[] = [];
         feature.geometry.coordinates.forEach((polygon) => {
           polygon.forEach((triangle) => {
             for (let i = 0; i < triangle.length - 1; i++) {
               const [lon, lat] = triangle[i];
               const p = latLonToVector3([lon, lat], 1.02);
-              const p2 = latLonToVector3([lon, lat], 1.01);
               vertices.push(p.x, p.y, p.z);
-              lowerVertices.push(p2.x, p2.y, p2.z);
             }
           });
         });
@@ -53,6 +53,7 @@ const World = () => {
             side: THREE.DoubleSide,
           }),
         );
+        mesh.name = feature?.properties?.COUNTRY;
         meshesData.current.push(mesh);
         group.add(mesh);
       });
@@ -60,6 +61,9 @@ const World = () => {
   }, []);
 
   const onMouseMove = (e: MouseEvent) => {
+    normalMouse.current.x = e.clientX;
+    normalMouse.current.y = e.clientY;
+
     mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
   };
@@ -88,9 +92,18 @@ const World = () => {
         intersection.material = newMaterial;
 
         hoveredMesh.current = intersection;
+        if (toolTip) {
+          toolTip.style.display = "block";
+          toolTip.style.left = `${normalMouse.current.x}px`;
+          toolTip.style.top = `${normalMouse.current.y}px`;
+          toolTip.innerHTML = intersection.name;
+        }
       }
     } else {
       document.body.style.cursor = "default";
+      if (toolTip) {
+        toolTip.style.display = "none";
+      }
       if (hoveredMesh.current) {
         const resetMaterial = (
           hoveredMesh.current.material as THREE.MeshBasicMaterial
@@ -104,6 +117,19 @@ const World = () => {
   useEffect(() => {
     window.addEventListener("mousemove", onMouseMove);
     return () => window.removeEventListener("mousemove", onMouseMove);
+  }, []);
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      raycaster.current.setFromCamera(mouse.current, camera);
+      const intersect = raycaster.current.intersectObjects(meshesData.current);
+      if (intersect.length > 0) {
+        const intersection = intersect[0].object;
+        console.log(intersection.name);
+      }
+    };
+    window.addEventListener("click", onClick);
+    return () => window.removeEventListener("click", onClick);
   }, []);
 
   return <primitive object={meshes} />;

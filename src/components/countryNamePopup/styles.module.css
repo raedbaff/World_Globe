@@ -1,0 +1,14 @@
+.container {
+  position: absolute;
+  display: inline-flex;
+  padding: 0.125rem 0.625rem;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.25rem;
+  background: rgba(3, 3, 3, 0.5);
+  backdrop-filter: blur(27px);
+  color: #fff;
+  pointer-events: none;
+}
