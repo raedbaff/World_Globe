@@ -20,7 +20,7 @@ const World = () => {
     borders.features.forEach((feature) => {
       const material = [new THREE.LineBasicMaterial({ color: "#56BD9A" })];
       const line = new THREE.LineSegments(
-        new GeoJsonGeometry(feature.geometry, 1.021),
+        new GeoJsonGeometry(feature.geometry as any, 1.021),
         material,
       );
       group.add(line);
