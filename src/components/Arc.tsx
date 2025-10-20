@@ -5,27 +5,44 @@ import { useThree } from "@react-three/fiber";
 
 const Arc = () => {
   const { scene } = useThree();
-
-  const start = [9.537, 33.8869];
-  const end = [-98.5795, 39.8283];
-
-  const startVec = latLonToVector3([start[0], start[1]], 1.02);
-  const endVec = latLonToVector3([end[0], end[1]], 1.02);
-  const maxPoints = 50;
-  const points: THREE.Vector3[] = [];
-  for (let i = 0; i < maxPoints; i++) {
-    points.push(startVec.clone());
-  }
-
-  const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-  const lineMaterial = new THREE.LineBasicMaterial({
-    color: "red",
-    linewidth: 4,
-  });
-  const line = new THREE.Line(lineGeometry, lineMaterial);
-  scene.add(line);
-
   useEffect(() => {
+    const start = [9.537, 33.8869];
+    const end = [-98.5795, 39.8283];
+
+    const startVec = latLonToVector3([start[0], start[1]], 1.02);
+    const endVec = latLonToVector3([end[0], end[1]], 1.02);
+    const maxPoints = 50;
+    const points: THREE.Vector3[] = [];
+    for (let i = 0; i < maxPoints; i++) {
+      points.push(startVec.clone());
+    }
+
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: "red",
+      linewidth: 4,
+    });
+    const line = new THREE.Line(lineGeometry, lineMaterial);
+
+    const ringGeomatery = new THREE.RingGeometry(0.01, 0.02, 64);
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: "red",
+      side: THREE.DoubleSide,
+    });
+    const startRing = new THREE.Mesh(ringGeomatery, ringMaterial);
+    const endRing = startRing.clone();
+    startRing.position.copy(startVec);
+    endRing.position.copy(endVec);
+    const startRingNormal = startVec.clone().normalize();
+    const endRingNormal = endVec.clone().normalize();
+    const startRingOffset = startVec.clone().add(startRingNormal);
+    const endRingOffset = endVec.clone().add(endRingNormal);
+
+    startRing.lookAt(startRingOffset);
+    endRing.lookAt(endRingOffset);
+    scene.add(startRing);
+    scene.add(endRing);
+    scene.add(line);
     const startTime = performance.now();
     const duration = 2000; // 2 seconds
     const position = lineGeometry.attributes.position;
@@ -39,7 +56,7 @@ const Arc = () => {
         const base = new THREE.Vector3().lerpVectors(
           startVec,
           endVec,
-          progress,
+          progress
         );
         const arcHeight = Math.sin(Math.PI * progress) * 0.4;
         const direction = base.clone().normalize();
@@ -60,6 +77,14 @@ const Arc = () => {
 
       if (t < 1) {
         requestAnimationFrame(animate);
+      } else {
+        scene.remove(line);
+        scene.remove(startRing);
+        scene.remove(endRing);
+        lineGeometry.dispose();
+        ringGeomatery.dispose();
+        lineMaterial.dispose();
+        ringMaterial.dispose();
       }
     }
 
