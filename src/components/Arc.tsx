@@ -2,12 +2,13 @@ import * as THREE from "three";
 import { useEffect } from "react";
 import { latLonToVector3 } from "../helpers/verticeConvetor";
 import { useThree } from "@react-three/fiber";
+import type { Attack } from "../types/Attack";
 
-const Arc = () => {
+const Arc = ({ attack }: { attack: Attack }) => {
   const { scene } = useThree();
   useEffect(() => {
-    const start = [9.537, 33.8869];
-    const end = [-98.5795, 39.8283];
+    const start = [attack.source.longitude, attack.source.latitude];
+    const end = [attack.target.longitude, attack.target.latitude];
 
     const startVec = latLonToVector3([start[0], start[1]], 1.02);
     const endVec = latLonToVector3([end[0], end[1]], 1.02);
@@ -19,14 +20,14 @@ const Arc = () => {
 
     const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: "red",
+      color: attack.category.color,
       linewidth: 4,
     });
     const line = new THREE.Line(lineGeometry, lineMaterial);
 
     const ringGeomatery = new THREE.RingGeometry(0.01, 0.02, 64);
     const ringMaterial = new THREE.MeshBasicMaterial({
-      color: "red",
+      color: attack.category.color,
       side: THREE.DoubleSide,
     });
     const startRing = new THREE.Mesh(ringGeomatery, ringMaterial);
@@ -56,7 +57,7 @@ const Arc = () => {
         const base = new THREE.Vector3().lerpVectors(
           startVec,
           endVec,
-          progress
+          progress,
         );
         const arcHeight = Math.sin(Math.PI * progress) * 0.4;
         const direction = base.clone().normalize();

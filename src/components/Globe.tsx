@@ -4,7 +4,20 @@ import Space from "./Space";
 import World from "./World";
 import Arc from "./Arc";
 import * as THREE from "three";
+import { useEffect, useState } from "react";
+import type { Attack } from "../types/Attack";
+import { sampleAttacks } from "../data/Attacks";
 const Globe = () => {
+  const [cyberAttacks, setCyberAttacks] = useState<Attack[]>([]);
+  useEffect(() => {
+    const id = setInterval(() => {
+      const random = Math.floor(Math.random() * 10);
+      console.log(random);
+      setCyberAttacks([sampleAttacks[random]]);
+      console.log("tick");
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
   return (
     <Canvas camera={{ position: [0, 0, 3], fov: 50 }}>
       <Space />
@@ -22,11 +35,13 @@ const Globe = () => {
           transparent
           opacity={1}
           blending={THREE.AdditiveBlending}
-          side={THREE.BackSide} // render inside out to get a halo
+          side={THREE.BackSide}
         />
       </mesh>
       <World />
-      <Arc />
+      {cyberAttacks.map((attack) => {
+        return <Arc key={attack.id} attack={attack} />;
+      })}
 
       <OrbitControls
         enableZoom
