@@ -45,8 +45,9 @@ const Arc = ({ attack }: { attack: Attack }) => {
     scene.add(endRing);
     scene.add(line);
     const startTime = performance.now();
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
     const position = lineGeometry.attributes.position;
+    let animationId: number;
     function animate() {
       const elapsed = performance.now() - startTime;
       const t = Math.min(elapsed / duration, 1);
@@ -57,7 +58,7 @@ const Arc = ({ attack }: { attack: Attack }) => {
         const base = new THREE.Vector3().lerpVectors(
           startVec,
           endVec,
-          progress,
+          progress
         );
         const arcHeight = Math.sin(Math.PI * progress) * 0.4;
         const direction = base.clone().normalize();
@@ -77,20 +78,29 @@ const Arc = ({ attack }: { attack: Attack }) => {
       position.needsUpdate = true;
 
       if (t < 1) {
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
       } else {
-        scene.remove(line);
-        scene.remove(startRing);
-        scene.remove(endRing);
-        lineGeometry.dispose();
-        ringGeomatery.dispose();
-        lineMaterial.dispose();
-        ringMaterial.dispose();
+        cleanup();
       }
     }
 
+    function cleanup() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      scene.remove(line);
+      scene.remove(startRing);
+      scene.remove(endRing);
+      lineGeometry.dispose();
+      ringGeomatery.dispose();
+      lineMaterial.dispose();
+      ringMaterial.dispose();
+    }
+
     animate();
-  }, []);
+
+    return cleanup;
+  }, [attack.id, scene]);
 
   return <></>;
 };
