@@ -21,7 +21,7 @@ const World = () => {
       const material = [new THREE.LineBasicMaterial({ color: "#56BD9A" })];
       const line = new THREE.LineSegments(
         new GeoJsonGeometry(feature.geometry as any, 1.021),
-        material,
+        material
       );
       group.add(line);
     });
@@ -41,7 +41,7 @@ const World = () => {
         const geo = new THREE.BufferGeometry();
         geo.setAttribute(
           "position",
-          new THREE.Float32BufferAttribute(vertices, 3),
+          new THREE.Float32BufferAttribute(vertices, 3)
         );
         geo.computeVertexNormals();
 
@@ -51,7 +51,7 @@ const World = () => {
           new THREE.MeshBasicMaterial({
             color,
             side: THREE.DoubleSide,
-          }),
+          })
         );
         mesh.name = feature?.properties?.COUNTRY;
         meshesData.current.push(mesh);

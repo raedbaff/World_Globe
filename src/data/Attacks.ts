@@ -1,8 +1,9 @@
+import { nanoid } from "nanoid";
 import { AttackCategory, AttackSeverity, type Attack } from "../types/Attack";
 
 export const sampleAttacks: Attack[] = [
   {
-    id: "atk-001",
+    id: nanoid(),
     category: AttackCategory.INFILTRATION,
     date: "2025-10-18T09:21:00Z",
     source: { longitude: 37.6173, latitude: 55.7558, countryName: "Russia" },
@@ -16,7 +17,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.MODERATE,
   },
   {
-    id: "atk-002",
+    id: nanoid(),
     category: AttackCategory.FLOODING,
     date: "2025-10-19T14:05:00Z",
     source: { longitude: 103.8198, latitude: 1.3521, countryName: "Singapore" },
@@ -26,7 +27,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.SEVERE,
   },
   {
-    id: "atk-003",
+    id: nanoid(),
     category: AttackCategory.SIGNAL_JAM,
     date: "2025-09-30T22:40:00Z",
     source: { longitude: 31.2357, latitude: 30.0444, countryName: "Egypt" },
@@ -36,7 +37,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.MODERATE,
   },
   {
-    id: "atk-004",
+    id: nanoid(),
     category: AttackCategory.SHADOW_ACCESS,
     date: "2025-10-05T03:12:00Z",
     source: {
@@ -50,7 +51,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.CRITICAL,
   },
   {
-    id: "atk-005",
+    id: nanoid(),
     category: AttackCategory.DATA_LEAK,
     date: "2025-10-01T12:00:00Z",
     source: { longitude: -46.6333, latitude: -23.5505, countryName: "Brazil" },
@@ -60,7 +61,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.CATASTROPHIC,
   },
   {
-    id: "atk-006",
+    id: nanoid(),
     category: AttackCategory.INFILTRATION,
     date: "2025-08-21T06:30:00Z",
     source: { longitude: 18.0632, latitude: 59.3348, countryName: "Sweden" },
@@ -74,7 +75,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.MINOR,
   },
   {
-    id: "atk-007",
+    id: nanoid(),
     category: AttackCategory.FLOODING,
     date: "2025-10-15T19:50:00Z",
     source: { longitude: 116.4074, latitude: 39.9042, countryName: "China" },
@@ -88,7 +89,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.SEVERE,
   },
   {
-    id: "atk-008",
+    id: nanoid(),
     category: AttackCategory.SIGNAL_JAM,
     date: "2025-07-12T11:05:00Z",
     source: { longitude: -3.7038, latitude: 40.4168, countryName: "Spain" },
@@ -98,7 +99,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.SEVERE,
   },
   {
-    id: "atk-009",
+    id: nanoid(),
     category: AttackCategory.SHADOW_ACCESS,
     date: "2025-09-02T23:59:00Z",
     source: {
@@ -116,7 +117,7 @@ export const sampleAttacks: Attack[] = [
     impact: AttackSeverity.CRITICAL,
   },
   {
-    id: "atk-010",
+    id: nanoid(),
     category: AttackCategory.DATA_LEAK,
     date: "2025-10-20T07:45:00Z",
     source: {

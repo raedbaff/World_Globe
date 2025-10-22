@@ -100,7 +100,7 @@ const Arc = ({ attack }: { attack: Attack }) => {
     animate();
 
     return cleanup;
-  }, [attack.id, scene]);
+  }, [attack.id]);
 
   return <></>;
 };

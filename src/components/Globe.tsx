@@ -1,23 +1,13 @@
 import { OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import Space from "./Space";
 import World from "./World";
 import Arc from "./Arc";
 import * as THREE from "three";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import type { Attack } from "../types/Attack";
 import { sampleAttacks } from "../data/Attacks";
 const Globe = () => {
-  const [cyberAttacks, setCyberAttacks] = useState<Attack[]>([]);
-  useEffect(() => {
-    const id = setInterval(() => {
-      const random = Math.floor(Math.random() * 10);
-      console.log(random);
-      setCyberAttacks([sampleAttacks[random]]);
-      console.log("tick");
-    }, 3000);
-    return () => clearInterval(id);
-  }, []);
   return (
     <Canvas camera={{ position: [0, 0, 3], fov: 50 }}>
       <Space />
@@ -39,9 +29,7 @@ const Globe = () => {
         />
       </mesh>
       <World />
-      {cyberAttacks.map((attack) => {
-        return <Arc key={attack.id} attack={attack} />;
-      })}
+      <AttackManager />
 
       <OrbitControls
         enableZoom
@@ -55,3 +43,36 @@ const Globe = () => {
 };
 
 export default Globe;
+const AttackManager = () => {
+  const elapsedRef = useRef(0);
+  const attacksLength = sampleAttacks.length;
+  const remainingAttacks = useRef(attacksLength);
+  const [cyberAttacks, setCyberAttacks] = useState<Attack[]>([]);
+
+  useFrame((state, delta) => {
+    elapsedRef.current += delta;
+
+    if (elapsedRef.current > 1) {
+      remainingAttacks.current--;
+      elapsedRef.current = 0;
+
+      setCyberAttacks((prev) => [
+        ...prev,
+        sampleAttacks[remainingAttacks.current],
+      ]);
+    }
+
+    if (remainingAttacks.current < 0) {
+      setCyberAttacks([]);
+      remainingAttacks.current = attacksLength;
+    }
+  });
+
+  return (
+    <>
+      {cyberAttacks.map((attack) => (
+        <Arc key={attack.id} attack={attack} />
+      ))}
+    </>
+  );
+};
