@@ -49,7 +49,7 @@ const AttackManager = () => {
   const remainingAttacks = useRef(attacksLength);
   const [cyberAttacks, setCyberAttacks] = useState<Attack[]>([]);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     elapsedRef.current += delta;
 
     if (elapsedRef.current > 1) {
