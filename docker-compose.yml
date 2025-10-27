@@ -1,0 +1,16 @@
+version: "3.9"
+
+
+services:
+    world-globe-frontend:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - VITE_MADE_BY="Made with ❤️ by Raed Baffoun"
+        ports:
+            - "5173:80"
+        container_name: world-globe-frontend
+        restart: unless-stopped
+          
+      
