@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: world-globe-frontend-service
+  namespace: world-globe
+  labels:
+    app: world-globe-frontend
+spec:
+  selector:
+    app: world-globe-frontend
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  type: ClusterIP

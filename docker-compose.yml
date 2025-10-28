@@ -8,6 +8,7 @@ services:
             dockerfile: Dockerfile
             args:
                 - VITE_MADE_BY="Made with ❤️ by Raed Baffoun"
+        image: raed980/world-globe-frontend:1.0.0
         ports:
             - "5173:80"
         container_name: world-globe-frontend

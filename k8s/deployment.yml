@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: world-globe-frontend
+  namespace: world-globe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: world-globe-frontend
+  template:
+    metadata:
+      labels:
+        app: world-globe-frontend
+    spec:
+      containers:
+        - name: world-globe-frontend
+          image: raed980/world-globe-frontend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          
